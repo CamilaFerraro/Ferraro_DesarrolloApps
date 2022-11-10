@@ -1,6 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, Text, TextInput, View, FlatList, TouchableOpacity, Modal, Pressable} from 'react-native';
+import { StyleSheet, Text, TextInput, View, FlatList, TouchableOpacity, Pressable} from 'react-native';
+import Modal from './components/Modal';
 
 export default function App() {
 
@@ -29,6 +30,8 @@ export default function App() {
 
   const deleteItem=()=>{
     setList(currentState=> currentState.filter(item => item.id !== itemSelected.id))
+    setItemSelected({})
+    setModalVisible(false)
   }
 
   const selectedItem=(id)=>{
@@ -69,25 +72,7 @@ export default function App() {
           keyExtractor={(item) => item.id}
         />
       </View>
-
-      <Modal
-        animationType="fade"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={()=>{
-          Alert.alert("Modal has been closed.");
-          setModalVisible(!modalVisible);
-        }}
-        >
-          <View style={styles.centeredView}>
-            <View style={{backgroundColor:"white"}}>
-              <Text>Quieres eliminar este elemento?</Text>
-              <Pressable onPress={()=> deleteItem()} style={{backgroundColor: "purple"}}>
-                <Text style={styles.textStyle}>Eliminar</Text>
-              </Pressable>
-            </View>
-          </View>
-      </Modal>
+      <Modal isVisible={modalVisible} actionDeleteItem={deleteItem}/>
     </View>
   );
 }
@@ -95,18 +80,20 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#8000FF',
     padding: 30,
     marginTop: 50,
   },
-  addItem: {
-    marginTop: 50,
+  inputcontainer: {
+    marginTop: 30,
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-around",
     alignItems: "center",
+    width: "100%",
+    paddingHorizontal: 30,
   },
-  input: {
-    width: 200,
+  inputStyle: {
+    width: 250,
     borderBottomColor: "black",
     borderBottomWidth: 1,
   },
@@ -115,7 +102,7 @@ const styles = StyleSheet.create({
     height: 30,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: 'purple',
+    backgroundColor: "purple",
   },
 });
 
