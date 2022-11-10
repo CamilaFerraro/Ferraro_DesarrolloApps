@@ -34,10 +34,10 @@ export default function App() {
     setModalVisible(false)
   }
 
-  const selectedItem=(id)=>{
-    setItemSelected(list.filter(item=>item.id===id)[0])
-    setModalVisible(true)
-  }
+  const selectedItem = (id) => {
+    setItemSelected(list.find((item) => item.id === id));
+    setModalVisible(true);
+  };
 
   /*{const deleteItem = (id) =>{
     setList((currentState)=>
