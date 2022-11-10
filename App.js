@@ -1,51 +1,93 @@
 import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
-import { StyleSheet, Text, TextInput, View, Button, FlatList} from 'react-native';
+import { StyleSheet, Text, TextInput, View, FlatList, TouchableOpacity, Modal, Pressable} from 'react-native';
 
 export default function App() {
 
   const [textItem, setTextItem] = useState("");
-  const [itemList, setItemList] = useState([]);
+  const [list, setList] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [itemSelected, setItemSelected] = useState({});
 
-  const onHandleChangeItem=(t)=>{
+  const onHandleChange=(t)=>{
     setTextItem(t);
   };
 
   const addItem=()=>{
-    setItemList(currentItems=>[
-      ...currentItems,
-      {id: Math.random().toString(), value: textItem}
+    setList(currentState=>[
+      ...currentState,
+      {id: Math.random().toString(), value: textItem},
     ]);
     setTextItem("");
   };
 
   const renderItem = ({item}) => (
-    <View style={styles.items}>
+    <TouchableOpacity onPress={()=> selectedItem (item.id)}>
       <Text>{item.value}</Text>
-      <Button title="Presiona"/>
-    </View>
+    </TouchableOpacity>
   );
+
+  const deleteItem=()=>{
+    setList(currentState=> currentState.filter(item => item.id !== itemSelected.id))
+  }
+
+  const selectedItem=(id)=>{
+    setItemSelected(list.filter(item=>item.id===id)[0])
+    setModalVisible(true)
+  }
+
+  /*{const deleteItem = (id) =>{
+    setList((currentState)=>
+    currentState.filter((item)=> item.id!== itemSelected.id)
+    );
+    setItemSelected({});
+    setModalVisible(false);
+
+  };*/
 
 
 
   return (
     <View style={styles.container}>
-      <Text>Shopping List</Text>
-      <View style = {styles.addItem}>
-        <TextInput value={textItem} 
-        style={styles.input} 
-        placeholder="Add your item" 
-        onChangeText={onHandleChangeItem}
+      <Text style={{fontSize: 30}}>Shopping List 🛒</Text>
+      <View style = {styles.inputcontainer}>
+        <TextInput 
+        placeholder="new item"
+        placeholderTextColor="white"
+        value={textItem} 
+        style={styles.inputStyle} 
+        onChangeText={onHandleChange}
         />
-        <Button title="ADD" onPress={addItem}/>
+        <TouchableOpacity style={styles.button} onPress={addItem}>
+          <Text>Add</Text>
+        </TouchableOpacity>
       </View>
       <View>
         <FlatList
-          data={itemList}
+          data={list}
           renderItem={renderItem}
-          keyExtractor={item => item.id}
+          keyExtractor={(item) => item.id}
         />
       </View>
+
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={()=>{
+          Alert.alert("Modal has been closed.");
+          setModalVisible(!modalVisible);
+        }}
+        >
+          <View style={styles.centeredView}>
+            <View style={{backgroundColor:"white"}}>
+              <Text>Quieres eliminar este elemento?</Text>
+              <Pressable onPress={()=> deleteItem()} style={{backgroundColor: "purple"}}>
+                <Text style={styles.textStyle}>Eliminar</Text>
+              </Pressable>
+            </View>
+          </View>
+      </Modal>
     </View>
   );
 }
