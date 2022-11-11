@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Pressable, Modal as NewModal } from 'react-nati
 
 const Modal = (props) => {
 
-const {isVisible, actionDeleteItem}= props;
+const {isVisible, actionDeleteItem} = props;
 
   return (
     <NewModal animationType="fade" transparent={true} visible={isVisible}>
@@ -27,4 +27,4 @@ const styles = StyleSheet.create({
         alignItems: "center",
         marginTop: 22,
     },
-})
+});

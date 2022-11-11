@@ -15,11 +15,24 @@ export default function App() {
   };
 
   const addItem=()=>{
-    setList(currentState=>[
+    setList((currentState)=>[
       ...currentState,
       {id: Math.random().toString(), value: textItem},
     ]);
     setTextItem("");
+  };
+ 
+  const selectedItem = (id) => {
+    setItemSelected(list.find((item) => item.id === id));
+    setModalVisible(true);
+  };
+  
+  const deleteItem = () => {
+    setList((currentState) =>
+      currentState.filter((item) => item.id !== itemSelected.id)
+    );
+    setItemSelected({});
+    setModalVisible(false);
   };
 
   const renderItem = ({item}) => (
@@ -28,28 +41,6 @@ export default function App() {
     </TouchableOpacity>
   );
 
-  const deleteItem=()=>{
-    setList(currentState=> currentState.filter(item => item.id !== itemSelected.id))
-    setItemSelected({})
-    setModalVisible(false)
-  }
-
-  const selectedItem = (id) => {
-    setItemSelected(list.find((item) => item.id === id));
-    setModalVisible(true);
-  };
-
-  /*{const deleteItem = (id) =>{
-    setList((currentState)=>
-    currentState.filter((item)=> item.id!== itemSelected.id)
-    );
-    setItemSelected({});
-    setModalVisible(false);
-
-  };*/
-
-
-
   return (
     <View style={styles.container}>
       <Text style={{fontSize: 30}}>Shopping List 🛒</Text>
@@ -57,8 +48,8 @@ export default function App() {
         <TextInput 
         placeholder="new item"
         placeholderTextColor="white"
-        value={textItem} 
         style={styles.inputStyle} 
+        value={textItem} 
         onChangeText={onHandleChange}
         />
         <TouchableOpacity style={styles.button} onPress={addItem}>
@@ -81,8 +72,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#8000FF',
-    padding: 30,
-    marginTop: 50,
+    alignItems: "center",
+    paddingTop: 100,
   },
   inputcontainer: {
     marginTop: 30,
@@ -97,12 +88,13 @@ const styles = StyleSheet.create({
     borderBottomColor: "black",
     borderBottomWidth: 1,
   },
-  items: {
-    marginTop: 50,
-    height: 30,
+  button: {
+    backgroundColor: "purple",
+    height: 35,
+    width: 45,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "purple",
+    borderRadius: 15,
   },
 });
 
