@@ -8,13 +8,12 @@ const {isVisible, actionDeleteItem, actionSaveItem} = props;
     <NewModal animationType="fade" transparent={true} visible={isVisible}>
         <View style={styles.centeredView}>
             <View style={{backgroundColor:"white"}}>
-                <Text>Quieres eliminar este elemento?</Text>
-                <Pressable onPress={()=> actionDeleteItem()} style={{backgroundColor: "pink"}}>
-                    <Text>Eliminar</Text>
-                </Pressable>
-                <Text>Quieres guardar este elemento?</Text>
+                <Text>Que deseas hacer con el elemento?</Text>
                 <Pressable onPress={()=> actionSaveItem()} style={{backgroundColor: "pink"}}>
                     <Text>Guardar</Text>
+                </Pressable>
+                <Pressable onPress={()=> actionDeleteItem()} style={{backgroundColor: "pink"}}>
+                    <Text>Eliminar</Text>
                 </Pressable>
             </View>
         </View>
