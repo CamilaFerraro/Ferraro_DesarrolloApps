@@ -35,6 +35,14 @@ export default function App() {
     setModalVisible(false);
   };
 
+  const saveItem = () => {
+    setList((currentState) =>
+      currentState.filter((item) => item.id === itemSelected.id)
+    );
+    setItemSelected({});
+    setModalVisible(false);
+  };
+
   const renderItem = ({item}) => (
     <TouchableOpacity onPress={()=> selectedItem (item.id)}>
       <Text>{item.value}</Text>
@@ -63,7 +71,7 @@ export default function App() {
           keyExtractor={(item) => item.id}
         />
       </View>
-      <Modal isVisible={modalVisible} actionDeleteItem={deleteItem}/>
+      <Modal isVisible={modalVisible} actionDeleteItem={deleteItem} actionSaveItem={saveItem}/>
     </View>
   );
 }
