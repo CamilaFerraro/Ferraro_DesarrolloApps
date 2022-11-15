@@ -9,6 +9,7 @@ export default function App() {
   const [list, setList] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [itemSelected, setItemSelected] = useState({});
+  const [savedItem, setSavedItem] = useState({});
 
   const onHandleChange=(t)=>{
     setTextItem(t);
@@ -37,9 +38,9 @@ export default function App() {
 
   const saveItem = () => {
     setList((currentState) =>
-      currentState.filter((item) => item.id === itemSelected.id)
+      currentState.filter((item) => item.id !== savedItem.id)
     );
-    setItemSelected({});
+    setSavedItem({});
     setModalVisible(false);
   };
 
@@ -71,7 +72,7 @@ export default function App() {
           keyExtractor={(item) => item.id}
         />
       </View>
-      <Modal isVisible={modalVisible} actionDeleteItem={deleteItem} actionSaveItem={saveItem}/>
+      <Modal isVisible={modalVisible} actionDeleteItem={deleteItem} actionSaveItem={saveItem} actionCompleted={savedItem}/>
     </View>
   );
 }
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
     width: 45,
     justifyContent: "center",
     alignItems: "center",
-    borderRadius: 15,
+    borderRadius: 5,
   },
 });
 

@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Pressable, Modal as NewModal } from 'react-nati
 
 const Modal = (props) => {
 
-const {isVisible, actionDeleteItem, actionSaveItem} = props;
+const {isVisible, actionDeleteItem, actionSaveItem, actionCompleted} = props;
 
   return (
     <NewModal animationType="fade" transparent={true} visible={isVisible}>
