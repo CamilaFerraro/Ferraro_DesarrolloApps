@@ -2,18 +2,14 @@ import { StyleSheet, Text, View, Pressable, Modal as NewModal } from 'react-nati
 
 const Modal = (props) => {
 
-const {isVisible, actionDeleteItem, actionSaveItem, actionCompleted} = props;
+const {isVisible, actionDeleteItem} = props;
 
   return (
     <NewModal animationType="fade" transparent={true} visible={isVisible}>
         <View style={styles.centeredView}>
             <View style={{backgroundColor:"white"}}>
-                <Text>Que deseas hacer con el elemento?</Text>
-                <Pressable onPress={()=> actionSaveItem()} style={{backgroundColor: "pink"}}>
-                    <Text>Guardar</Text>
-                </Pressable>
-                <Pressable onPress={()=> actionDeleteItem()} style={{backgroundColor: "pink"}}>
-                    <Text>Eliminar</Text>
+                <Pressable onPress={actionDeleteItem}>
+                    <Text>Delete</Text>
                 </Pressable>
             </View>
         </View>

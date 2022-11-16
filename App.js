@@ -1,7 +1,7 @@
-import { StatusBar } from 'expo-status-bar';
 import { useState } from 'react';
 import { StyleSheet, Text, TextInput, View, FlatList, TouchableOpacity, Pressable} from 'react-native';
 import Modal from './components/Modal';
+import ElementList from './components/ElementList';
 
 export default function App() {
 
@@ -9,7 +9,6 @@ export default function App() {
   const [list, setList] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [itemSelected, setItemSelected] = useState({});
-  const [savedItem, setSavedItem] = useState({});
 
   const onHandleChange=(t)=>{
     setTextItem(t);
@@ -23,10 +22,10 @@ export default function App() {
     setTextItem("");
   };
  
-  const selectedItem = (id) => {
-    setItemSelected(list.find((item) => item.id === id));
-    setModalVisible(true);
-  };
+  const selectedItem = (id) =>{
+    setItemSelected(itemList.filter((item) => item.id == id)[0])
+    setModalVisible(true)
+  }
   
   const deleteItem = () => {
     setList((currentState) =>
@@ -36,19 +35,9 @@ export default function App() {
     setModalVisible(false);
   };
 
-  const saveItem = () => {
-    setList((currentState) =>
-      currentState.filter((item) => item.id !== savedItem.id)
-    );
-    setSavedItem({});
-    setModalVisible(false);
-  };
-
   const renderItem = ({item}) => (
-    <TouchableOpacity onPress={()=> selectedItem (item.id)}>
-      <Text>{item.value}</Text>
-    </TouchableOpacity>
-  );
+    <ElementList item={item} selectedItem={selectedItem}></ElementList>
+  ) 
 
   return (
     <View style={styles.container}>
@@ -72,7 +61,7 @@ export default function App() {
           keyExtractor={(item) => item.id}
         />
       </View>
-      <Modal isVisible={modalVisible} actionDeleteItem={deleteItem} actionSaveItem={saveItem} actionCompleted={savedItem}/>
+      <Modal isVisible={modalVisible} deleteItem={deleteItem} ItemSelected={itemSelected}/>
     </View>
   );
 }
